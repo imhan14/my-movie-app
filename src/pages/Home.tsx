@@ -1,4 +1,3 @@
-import React from "react";
 import BannerHome from "../components/BannerHome";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";

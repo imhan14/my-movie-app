@@ -1,4 +1,3 @@
-import React from "react";
 import { mobileNavigation } from "../contants/navigations";
 import { NavLink } from "react-router-dom";
 const MobileNavigate = () => {
