@@ -6,6 +6,9 @@ import moment from "moment";
 import Divider from "../components/Divider";
 import useFetch from "../hooks/useFetch";
 import HorizontalScrollCard from "../components/HorizontalScrollCard";
+import { useState } from "react";
+import VideoPlay from "../components/VideoPlay";
+import { DetailsType } from "../types/dataType";
 
 const DetailsPage = () => {
   const params = useParams();
@@ -20,15 +23,19 @@ const DetailsPage = () => {
   const { data: recommendationData } = useFetch(
     `${params.explore}/${params?.id}/recommendations`
   );
-  // console.log("sim", similarData);
+  const [playVideo, setPlayVideo] = useState(false);
+  const [playVideoId, setPlayVideoId] = useState(Object);
   const writer = castData?.crew
     ?.filter((el) => el?.job === "Writer")
     ?.map((el) => el?.name)
     ?.join(", ");
-  console.log(data);
-  // console.log("castData", data.number_of_episodes ?? data.runtime);
-  // console.log("w", writer);
+
   const duration = (Number(data?.runtime) / 60).toFixed(1).split(".");
+
+  const handlePlayVideo = (data?: DetailsType) => {
+    setPlayVideoId(data);
+    setPlayVideo(true);
+  };
   return (
     <div>
       <div className="w-full h-[280px] relative hidden lg:block">
@@ -46,6 +53,12 @@ const DetailsPage = () => {
             src={imageURL + data?.poster_path}
             className="h-80 w-60 object-cover rounded"
           />
+          <button
+            onClick={() => handlePlayVideo(data)}
+            className="mt-3 w-full py-2 px-4 text-center bg-white text-black rounded font-bold text-lg hover:bg-gradient-to-l from-red-500 to-orange-400 hover:scale-105 transition-all"
+          >
+            Play Now
+          </button>
         </div>
         <div>
           <h2 className="text-2xl font-bold text-white lg:text-3xl">
@@ -124,6 +137,14 @@ const DetailsPage = () => {
           media_type={params?.explore}
         />
       </div>
+
+      {playVideo && (
+        <VideoPlay
+          data={playVideoId}
+          close={() => setPlayVideo(false)}
+          media_type={params?.explore}
+        />
+      )}
     </div>
   );
 };

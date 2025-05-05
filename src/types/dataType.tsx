@@ -19,5 +19,10 @@ export interface DetailsType extends BannerItem {
   revenue: number;
   crew: [{ name: string; job: string }];
   cast: [{ profile_path: string; name: string }];
+  results: [
+    {
+      key: string;
+    }
+  ];
   number_of_episodes: string;
 }
